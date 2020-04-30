@@ -1,4 +1,4 @@
-use std::{process, env};
+use std::{process, env, fs};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -7,6 +7,8 @@ fn main() {
         println!("Problem passing arguments {}",err);
         process::exit(1);
     });
+
+    run(config);
 }
 
 struct Config {
@@ -22,4 +24,10 @@ impl Config {
         let filename = args[2].clone();
         Ok(Config { query, filename })
     }
+}
+
+fn run(config: Config) {
+    let contents = fs::read_to_string(config.filename)
+        .expect("Something went wrong reading the file");
+        println!("With text:\n{}", contents);
 }
